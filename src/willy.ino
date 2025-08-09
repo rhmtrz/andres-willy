@@ -24,34 +24,26 @@ void loop() {
   if(PS4.isConnected()) {
     M5.dis.drawpix(0, 0x000000);
 
-    int8_t ly =  100 + ((PS4.LStickY() / 10) * -1);
+    int8_t gear1 = PS4.L1();
+    int8_t gear2 = PS4.R1();
+
+    int8_t speed = gear1 ? gear2 ? 6 : 8 : 10;
+    int8_t ly =  97 + ((PS4.LStickY() / speed) * -1);
     int8_t rx =  90 + ((PS4.RStickX() / 5) * -1);
-    Serial.println(ly);
-    Serial.println(rx);
-    Serial.println();
 
-    if (ly > 100) {
-      myMotor.write(ly);
-      M5.dis.drawpix(0, BLUE);
-    } 
-    if (ly < 100) {
-      myMotor.write(ly);
-      M5.dis.drawpix(0, RED);
-    }
-    if (PS4.Down()) {
-      myMotor.write(97);
-    }
+    // Serial.println();
+    // Serial.println(speed);
 
-    if (rx < 90) {
-      myServo.write(rx);
-      M5.dis.drawpix(0, RED);
-    } else if (rx > 90) {
-      myServo.write(rx);
-      M5.dis.drawpix(0, BLUE);
-    } else {
-      myServo.write(90);
-    }
+    // printf("ly: %d\n", ly);
+    // printf("rx: %d\n", rx);
+
+  
+    myMotor.write(ly);
+
+    myServo.write(rx);
+
+
   }
 
-  delay(100);
+  delay(50);
 }
